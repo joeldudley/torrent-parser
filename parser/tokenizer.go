@@ -39,8 +39,7 @@ func tokenize(filePath string) []token {
 	for {
 		readByte, err := reader.ReadByte()
 		if err != nil {
-			// Reached end of bytestream.
-			break
+			break // Reached end of bytestream.
 		}
 
 		switch {
