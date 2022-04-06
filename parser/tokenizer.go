@@ -17,8 +17,13 @@ func tokenize(filePath string) []token {
 		errMsg := fmt.Sprintf("Could not read file %s.", filePath)
 		log.Fatal(errMsg)
 	}
-	// TODO - Handle error.
-	defer file.Close()
+
+	defer func(file *os.File) {
+		err := file.Close()
+		if err != nil {
+			log.Fatal(err)
+		}
+	}(file)
 
 	var tokens []token
 	reader := bufio.NewReader(file)
