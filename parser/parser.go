@@ -16,6 +16,11 @@ func ParseBencoded(filePath string) (*Node, error) {
 	return node, nil
 }
 
+// Print pretty-prints a Node.
+func Print(node *Node) {
+	printNode(node, 0)
+}
+
 // parseTokens takes a slice of tokenizer.token and returns a node and the number of tokens processed.
 func parseTokens(tokens []token) (*Node, int, error) {
 	var i = 0
@@ -103,11 +108,7 @@ func parseTokens(tokens []token) (*Node, int, error) {
 	}
 }
 
-func Print(node *Node) {
-	printNode(node, 0)
-}
-
-// Print pretty-prints a slice of node.
+// printNode pretty-prints a Node, using offset to provide indentation.
 func printNode(node *Node, offset int) {
 	switch node.NodeType {
 	case DictNode:
