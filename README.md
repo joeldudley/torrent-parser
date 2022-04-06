@@ -5,7 +5,7 @@ to JSON.
 
 ## Installation
 
-Build the binary using Go.
+Build the binary using Go:
 
 ```bash
 go build
@@ -13,7 +13,11 @@ go build
 
 ## Usage
 
+Run the binary, passing in the path to a .torrent file:
+
 ```bash
+go build
+
 ./torrent-parser ./data/example_torrents/big-buck-bunny.torrent
 ```
 
