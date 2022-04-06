@@ -8,7 +8,15 @@ import (
 )
 
 // TODO - Validation of bytes read, to check they're valid UTF-8/ints.
-// TODO - Return errors, rather than using log.Fatal.
+
+const (
+	dictStartByte = byte('d')
+	listStartByte = byte('l')
+	endByte       = byte('e')
+	intByte       = byte('i')
+	zeroByteCode  = 48
+	nineByteCode  = 57
+)
 
 // tokenize converts the Bencoded file at filePath into a slice of token.
 func tokenize(filePath string) []token {
@@ -36,17 +44,15 @@ func tokenize(filePath string) []token {
 		}
 
 		switch readByte {
-		case byte('d'):
+		case readByte == dictStartByte:
 			tokens = append(tokens, token{dictStartToken, []byte{}})
-		case byte('l'):
+		case readByte == listStartByte:
 			tokens = append(tokens, token{listStartToken, []byte{}})
-		case byte('e'):
+		case readByte == endByte:
 			tokens = append(tokens, token{endToken, []byte{}})
-		case byte('i'):
+		case readByte == intByte:
 			tokens = append(tokens, extractIntToken(reader))
-		case byte('0'), byte('1'), byte('2'), byte('3'), byte('4'),
-			byte('5'), byte('6'), byte('7'), byte('8'), byte('9'):
-
+		case readByte >= zeroByteCode && readByte <= nineByteCode:
 			tokens = append(tokens, extractStringToken(readByte, reader))
 		default:
 			errMsg := fmt.Sprintf("Unmatched token while tokenising file %s.", filePath)
@@ -91,8 +97,7 @@ func extractIntToken(reader *bufio.Reader) token {
 		}
 
 		if readByte == byte('e') {
-			// Reached end of integer.
-			break
+			break // Reached end of integer.
 		} else {
 			intBytes = append(intBytes, readByte)
 		}
