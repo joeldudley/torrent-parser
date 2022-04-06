@@ -69,7 +69,7 @@ func format(node *parser.Node, offset int) string {
 	return stringBuilder.String()
 }
 
-// getIndent returns a blank string of offset * 4 blank characters.
+// getIndent returns a blank string with (offset * 4) blank characters.
 func getIndent(offset int) string {
 	return strings.Repeat(" ", offset*4)
 }
