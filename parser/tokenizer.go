@@ -43,7 +43,7 @@ func tokenize(filePath string) []token {
 			break
 		}
 
-		switch readByte {
+		switch {
 		case readByte == dictStartByte:
 			tokens = append(tokens, token{dictStartToken, []byte{}})
 		case readByte == listStartByte:
